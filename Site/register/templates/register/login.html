@@ -1,0 +1,24 @@
+{% extends 'Client_app/layout.html' %}
+
+{% block title %}Cторінка входу{% endblock %}
+{% csrf_token %}
+{% block content %}
+
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class=".bg-danger.bg-gradient">{{ message }}</div>
+                {% else %}
+                    <div class="bg-success p-2 text-white">{{ message }}</div>
+                {% endif %}
+
+            {% endfor %}
+            {% endif %}
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Увійти</button>
+    </form>
+{% endblock %}
