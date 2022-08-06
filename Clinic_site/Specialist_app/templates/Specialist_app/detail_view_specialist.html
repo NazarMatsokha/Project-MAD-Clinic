@@ -1,0 +1,31 @@
+{% extends 'Client_app/layout.html' %}
+{% load i18n %}
+
+{% block title %}{{ objct.first_name }} {{objct.middle_name }} {{ objct.last_name }}{% endblock %}
+
+{% block content %}
+<div>
+    <img src="{{ objct.image }}" alt="doctor" class="rounded mx-auto d-block" style="width:20%; margin-top:10px;" >
+    <h1 class="blockquote" style="text-align:center; margin-top:2%;">{{ objct.first_name }} {{ objct.middle_name }} {{ objct.last_name }}</h1>
+    <p style="text-align:center;">{% trans "Професія" %} - {{ objct.speciality }}</p>
+    <figcaption class="blockquote-footer" style="margin-top:2%; margin-left:5%; text-align:center;">{{ objct.description }}</figcaption>
+<div>
+
+    <h1 STYLE="margin-top:10%; text-align:right;">{% trans "Попередній запис до лікаря" %}</h1>
+    <form method="post" style="float:right;width:50%;" class="form-control">
+        {% csrf_token %}
+        <p style="width:125%;text-align:center;">{% trans "Вибрати cпеціаліста" %}  {{ form.specialist }}</p><br>
+        <p style="width:125%;text-align:center;">{% trans "Вибрати кабінет" %}  {{ form.cabinet }}</p><br>
+        <p>{% trans "Назначити дату" %}</p>
+        <p>{{ form.date }}</p><br>
+        <p>{% trans "Назначити час" %}</p>
+        <p>{{ form.timeslot }}</p><br>
+        <p style="width:125%;text-align:center;">{{ form.patient_name }}<br>
+        {{ form.patient_last_name }}<br>
+        <span>{{ message.error }}</span>
+        <button class="btn btn-success" type="submit" style="">{% trans "Записатися" %}</button>
+    </form>
+</div>
+
+
+{% endblock %}

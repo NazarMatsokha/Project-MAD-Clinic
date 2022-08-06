@@ -1,0 +1,36 @@
+
+{% extends 'Client_app/layout.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Сторінка перегляду спеціалістів" %}{% endblock %}
+{% csrf_token %}
+{% block content %}
+
+
+{% if user.is_authenticated %}
+    <div class="features">
+        {% if specialist %}
+        <form method="GET" style="margin-bottom:3%; margin-left:35%;">
+            {{ filter_specialization.form }}
+            <button type="submit" class="btn btn-warning">{% trans "Знайти" %}</button>
+        </form>
+
+            {% for el in filter_specialization.qs %}
+                <div class="alert alert-secondary" style="width:50%;margin-left:auto;margin-right:auto;">
+                    <h3 style="text-align:center;margin-left:auto;margin-right:auto;">{{ el.first_name }} {{ el.middle_name }} {{ el.last_name }}</h3>
+                    <p style="text-align:center;">{{ el.speciality }}</p>
+                    <a href="{% url 'detail_view_specialist' el.id %}" class="btn btn-warning"style="background-color:yellow;margin-left:auto;margin-right:auto;display:block;margin-top:2%;margin-bottom:0%">{% trans "Вибрати час для прийому" %}</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>{% trans "Порожньо" %}!</p>
+        {% endif %}
+{% else %}
+        <p>{% trans "Для вибору лікаря необхідно увійти в обліковий запис" %}</p>
+
+
+
+    </div>
+{% endif %}
+{% endblock content %}
+
