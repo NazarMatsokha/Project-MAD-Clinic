@@ -1,4 +1,5 @@
-from .models import Appointment
+from .models import Appointment, Comments
+from django import forms
 from django.forms import ModelForm, TimeInput, TextInput, Select, SelectDateWidget
 from django.utils.translation import gettext_lazy
 
@@ -40,3 +41,11 @@ class AppointmentForm(ModelForm):
                 'placeholder': gettext_lazy('Прізвище')
             })
         }
+
+class CommentsForm(ModelForm):
+    comment = forms.CharField(label='Коментар', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width:100%;'}))
+    class Meta:
+        model = Comments
+        fields = ['comment']
+
+

@@ -6,7 +6,7 @@
 {% block content %}
 
 <h1 class="display-1" style="text-align: center; margin-bottom:5%;">Список заброньованих годин</h1>
-{% if perms.Doctor_app.can_view_appointment %}
+{% if perms.Specialist_app.can_view_appointment %}
     <form class="search" method="GET" style="">
             {{ doc_filter.form }}
             <button type="submit" class="btn btn-warning">Знайти</button>

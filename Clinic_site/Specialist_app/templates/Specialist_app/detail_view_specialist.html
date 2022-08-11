@@ -5,17 +5,19 @@
 
 {% block content %}
 <div>
-    <img src="{{ objct.image }}" alt="doctor" class="rounded mx-auto d-block" style="width:20%; margin-top:10px;" >
-    <h1 class="blockquote" style="text-align:center; margin-top:2%;">{{ objct.first_name }} {{ objct.middle_name }} {{ objct.last_name }}</h1>
-    <p style="text-align:center;">{% trans "Професія" %} - {{ objct.speciality }}</p>
-    <figcaption class="blockquote-footer" style="margin-top:2%; margin-left:5%; text-align:center;">{{ objct.description }}</figcaption>
-<div>
+    <div>
+        <img src="{{ objct.image }}" alt="doctor" class="rounded mx-auto d-block" style="width:20%; margin-top:10px;" >
+        <h1 class="blockquote" style="text-align:center; margin-top:2%;">{{ objct.first_name }} {{ objct.middle_name }} {{ objct.last_name }}</h1>
+        <p style="text-align:center;">{% trans "Професія" %} - {{ objct.speciality }}</p>
+        <figcaption class="blockquote-footer" style="margin-top:2%; margin-left:5%; text-align:center;">{{ objct.description }}</figcaption>
+    </div>
 
-    <h1 STYLE="margin-top:10%; text-align:right;">{% trans "Попередній запис до лікаря" %}</h1>
-    <form method="post" style="float:right;width:50%;" class="form-control">
+    <div>
+    <h1 STYLE="margin-top:10%; text-align:center;">{% trans "Попередній запис до лікаря" %}</h1>
+    <form method="post" style="width:100%;" class="form-control">
         {% csrf_token %}
-        <p style="width:125%;text-align:center;">{% trans "Вибрати cпеціаліста" %}  {{ form.specialist }}</p><br>
-        <p style="width:125%;text-align:center;">{% trans "Вибрати кабінет" %}  {{ form.cabinet }}</p><br>
+        <p style="width:125%;text-align:left;">{% trans "Вибрати cпеціаліста" %}  {{ form.specialist }}</p><br>
+        <p style="width:125%;text-align:left;">{% trans "Вибрати кабінет" %}  {{ form.cabinet }}</p><br>
         <p>{% trans "Назначити дату" %}</p>
         <p>{{ form.date }}</p><br>
         <p>{% trans "Назначити час" %}</p>
@@ -23,8 +25,38 @@
         <p style="width:125%;text-align:center;">{{ form.patient_name }}<br>
         {{ form.patient_last_name }}<br>
         <span>{{ message.error }}</span>
-        <button class="btn btn-success" type="submit" style="">{% trans "Записатися" %}</button>
+        <button class="btn btn-success" type="submit" style="display: flex;">{% trans "Записатися" %}</button>
+        {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class=".bg-danger.bg-gradient">{{ message }}</div>
+            {% else %}
+                <div class="bg-success p-2 text-white">{{ message.succes }}</div>
+            {% endif %}
+        {% endfor %}
+        {% endif %}
     </form>
+    <div>
+        <h1 STYLE="margin-top:3%; text-align:center;">{% trans "Коментарі" %}</h1>
+        {% if user.is_authenticated %}
+            <form method="post" style="width:100%;background-color:grey;" class="form-control">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <button type="submit" class="btn btn-success">Надіслати коментар</button>
+            </form>
+        {% else %}
+            <p>Для того щоб написати коментар потрібно увійти в обліковий запис або зареєстуватися</p>
+        {% endif %}
+    </div>
+
+    {% for comment in comments %}
+        <form method="get" class="form-control" style="width:100%;margin-top:3%">
+            <p>Автор статті - {{ comment.author }}</p>
+            <p>{{ comment.comment }}</p>
+            <p>Створено - {{ comment.created }}</p>
+        </form>
+    {% endfor %}
+
 </div>
 
 

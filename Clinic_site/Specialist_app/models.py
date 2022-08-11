@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User
 
 class Appointment(models.Model):
     class Meta:
@@ -64,4 +65,20 @@ class Specialist(models.Model):
     class Meta:
         verbose_name = "Спеціаліст"
         verbose_name_plural = "Спеціалісти"
+
+
+class Comments(models.Model):
+    specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.TextField("Коментарій")
+    created = models.DateTimeField("Дата створення", auto_now=True)
+
+    class Meta:
+        verbose_name = "Коментарій"
+        verbose_name_plural = "Коментарії"
+        ordering = ['created']
+
+    def __str__(self):
+        return 'Коментар - "{}". Від користувача {} {}'.format(self.comment, self.author, self.created)
+
 

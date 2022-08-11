@@ -31,7 +31,7 @@
             <a class="nav-link" href="{% url 'specialist' %}">{% trans "Записатися на прийом" %} </a>
           </li>
 
-            {% if perms.Doctor_app.can_view_appointment %}
+            {% if perms.Specialist_app.can_view_appointent %}
 
                <li class="nav-item">
                 <a class="nav-link" href="{% url 'check_reservation' %}">{% trans "Перевірити резервації" %}</a>
